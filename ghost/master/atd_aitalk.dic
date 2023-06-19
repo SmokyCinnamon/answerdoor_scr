@@ -11,44 +11,49 @@ OnAiTalk
 	LastTalk
 }
 
-OnMinuteChange {
-	countdown++
-	if countdown == 30 {
-		countdown = 0
-		if !itsHere; aitalkRang = 1
-		if itsHere; itsHere = 0
-	}
-	elseif countdown < 3 && RAND(100) + 1 <= 6 {
-		countdown = 0
-		if !itsHere {
-			aitalkRang = 1
-			if RAND(100) + 1 <= 6 {
-				itsHere = 1
-				aitalkRang = 0
+OnMinuteChange : all {
+	if !youRang {
+		countdown++
+		if countdown == 12 {
+			countdown = 0
+			if !itsHere; aitalkRang = 1
+			if itsHere {
+				itsHere = 0; aitalkRang = 1
 			}
 		}
-		elseif itsHere; itsHere = 0
+		elseif RAND(100) + 1 <= 60 {
+			countdown = 0
+			if !itsHere {
+				aitalkRang = 1
+				if RAND(100) + 1 <= 6 {
+					itsHere = 1
+					aitalkRang = 0
+				}
+			}
+			elseif itsHere; itsHere = 0
+		}
 	}
+	elseif RAND(100) + 1 <= 70; youRang = ""
 }
 
 RandomTalk : nonoverlap_pool
 {
-	"\1\s[10]\0\s[0]\n\n[half]...\x"
+	//"\1\s[10]\0\s[0]\n\n[half]...\x"
 	if itsHere {
-		//"Don't look at it."
-		//"Don't let it know you're here."
+		"It's staring..."
 	}
 	if !itsHere {
-		//"Why did it leave?"
-		//"Where did it go?"
+		"Why did it leave?"
+		"Where did it go?"
+		if aitalkRang; "\0\s[0]\1\s[10]...\![raise,OnGuestRing]"
 	}
-	if aitalkRang; "\![raise,OnGuestRing]"
 }
 
 OnGuestRing {
 	youRang = "The bell rings."
 	itsHere = 0
+	aitalkRang = 0
 	"The bell rings."
 	--
-	"\n\n[half]%*\__q[OnOpenDoor]Open The Door\__q\n%*\__q[OnCloseDoor]Ignore It\__q\*"
+	"\n\n[half]%*\__q[OnOpenDoor]Open The Door\__q\n%*\__q[OnCloseDoor,aitalk]Ignore It\__q\*"
 }
