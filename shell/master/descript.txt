@@ -1,0 +1,24 @@
+charset,UTF-8
+type,shell
+
+name,Main
+craftman,SmokyCinnamonRoll
+craftmanw,SmokyCinnamon (Лёва)
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+seriko.alignmenttodesktop,free
+seriko.use_self_alpha,1
+
+sakura.menu,auto
+sakura.bindgroup0.name,The Door,Default
+sakura.bindgroup1.name,The Door,Metal
+sakura.bindoption0.group,The Door,mustselect
+
+kero.menu,auto
+kero.bindgroup0.name,Curtains,-
+kero.bindgroup0.default,1
+kero.bindgroup1.name,The Window,Sliding
+kero.bindgroup10.name,The Window,Default
+kero.bindoption0.group,The Window,mustselect
+
+

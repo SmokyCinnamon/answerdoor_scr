@@ -1,0 +1,17 @@
+charset,UTF-8
+
+name,Answer The Door
+type,ghost
+
+shiori,yaya.dll
+
+craftman,SmokyCInnamonRoll
+craftmanw,SmokyCinnamon (Лёва)
+craftmanurl,https://smokycinnamon.github.io/indifferentsorrel/index.html
+
+sakura.name,The Door
+kero.name,The Window
+
+icon,icon.ico
+
+sstp.allowunspecifiedsend,0

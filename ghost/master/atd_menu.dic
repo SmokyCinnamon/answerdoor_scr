@@ -1,0 +1,81 @@
+OnSakuraMenu : all
+{
+	_talkRate = aitalkinterval % 60
+	if _talkRate == 0; _talkRate = 1
+	if aitalkinterval == 0; _talkRate = 0
+
+	"\0\s[0]\b2\![set,autoscroll,disable]"	
+	"\_q"
+	if !itsHere && youRang; "%(youRang)\n%*\__q[OnOpenDoor]Open The Door\__q\n%*\__q[OnCloseDoor]Ignore It\__q\n\n[half]"
+	"\![*]\q[Worry.,OnAiTalk]\n"
+	if LastTalk != ""; "  \![*]\q[(Repeat Last Dialogue),OnLastTalk]\n"
+	"\n[half]"
+	
+	"\![*]\q[(Talk Rate: %(_talkRate)),OnTalkRateMenu]\n\n"
+	
+	"\![*]\q[None of this helps., пустой]"
+	"\n\n"
+	if itsHere; "It's here."
+	else; "It left."
+	" | %(countdown) minutes have passed. (Max: 30)"
+}
+
+OnLastTalk {LastTalk}
+
+guestList : array {
+	"pakige,20"
+	"little dude #1,21"
+	"nothing after all"
+}
+
+OnOpenDoor : all {
+	youRang = ""
+	_yourGuest = ANY(guestList)
+	"\0\s[0]\i[%(_yourGuest[1])]\*"
+	case _yourGuest[1] {
+		when "pakige" {
+			"Just a package. Best to bring it in."
+		}
+		when "little dude #1" {
+			"...hey.\n\nI need sugar.\x![noclear]\n\nFor. Reasons."
+			"\n\n%*\__q[OnGuestInteract,%(_yourGuest),giveSugar](Give Sugar)\__q"
+			" %*\__q[OnGuestInteract,%(_yourGuest),refuseSugar](Refuse Give Sugar)\__q"
+		}
+		others {
+			"Nobody was there..."
+		}
+	}
+}
+
+OnGuestInteract {
+	"%(reference)"
+}
+
+OnTalkRateMenu : all
+{	
+	//это просто настроить настройки. Если хочешь изменить или добавить времени, это возможно
+	_talkrate = "None"
+	if aitalkinterval == 30; _talkrate = "30 seconds"
+	elseif aitalkinterval == 60; _talkrate = "1 minute"
+	elseif aitalkinterval == 180; _talkrate = "3 minutes"
+	elseif aitalkinterval == 300; _talkrate = "5 minutes"
+	elseif aitalkinterval == 600; _talkrate = "10 minutes"
+	
+	"\0\s[0]\b2\![set,autoscroll,disable]\_q"
+	"Talk Rate: %(_talkrate)\n\n"
+	
+	"\![*]\q[None,OnTalkRateChange,0]\n"
+	"\![*]\q[30 seconds,OnTalkRateChange,30]\n"
+	"\![*]\q[1 Minute,OnTalkRateChange,60]\n"
+	"\![*]\q[3 Minutes,OnTalkRateChange,180]\n"
+	"\![*]\q[5 Minutes,OnTalkRateChange,300]\n"
+	"\![*]\q[10 Minutes,OnTalkRateChange,600]\n"
+	"\n"
+	"\![*]\q[Return,OnSakuraMenu]\n\![*]\q[None of this helps.,пустой]"
+}
+
+OnTalkRateChange
+{
+	aitalkinterval = TOINT(reference0)
+	OnTalkRateMenu
+}

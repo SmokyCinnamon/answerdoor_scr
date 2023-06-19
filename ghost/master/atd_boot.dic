@@ -1,0 +1,41 @@
+OnFirstBoot
+{
+	countdown = 0
+	itsHere = 1
+	youRang = ""
+	aitalkRang = 0 //for calling events through aitalk
+	LastTalk = ""
+	
+	"\1\s[10]\i[30]\0\s[0]Something is out there."
+}
+
+OnInitialize
+{
+	countdown = 0
+	itsHere = 1
+	youRang = ""
+	aitalkRang = 0 //for calling events through aitalk
+
+	//Для новые переменние в обновление, лучше пишите вот так:
+	//if !ISVAR("НоваяПеременная"); НоваяПеремення = 0
+	//Это значить, что если у пользователя уже есть эту переменную, она не будет сброшено.
+	
+	if reference0 != "reload" //Для вещи, которые хочешь сбросить ТОЛЬКО если не просто перезагрузишь. Что-то для тебя, разработчик, в основном.
+	{
+		LastTalk = ""
+	}
+}
+
+OnBoot
+{
+	"\1\s[10]\i[30]\0\s[0]Something is out there."
+	"\1\s[10]\i[30]\0\s[0]Don't let it in."
+}
+
+OnClose
+{
+	"\1\s[10]\0\s[0]Did it leave?"
+	"\1\s[10]\0\s[0]It won't go away."
+	--
+	"\x\-"
+}
